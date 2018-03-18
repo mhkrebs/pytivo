@@ -312,7 +312,7 @@ def select_videocodec(inFile, tsn, mime=''):
         if (mime == 'video/x-tivo-mpeg-ts'):
             org_codec = vInfo.get('vCodec', '')
             if org_codec == 'h264':
-                codec += ['-bsf:v', 'h264_mp4toannexb']
+                codec += ['-bsf:v', 'h264_mp4toannexb', '-muxdelay', '0']
             elif org_codec == 'hevc':
                 codec += ['-bsf:v', 'hevc_mp4toannexb']
     else:
