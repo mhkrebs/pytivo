@@ -57,7 +57,7 @@ def reset():
     for section in config.sections():
         if section.startswith('_tivo_'):
             tsn = section[6:]
-            if tsn.upper() not in ['SD', 'HD']:
+            if tsn.upper() not in ['SD', 'HD', '4K']:
                 tivos_found = True
                 tivos[tsn] = Bdict(config.items(section))
 
