@@ -534,6 +534,11 @@ def tivo_compatible_video(vInfo, tsn, mime=''):
                 message = (False, 'vCodec %s not compatible' % codec)
 
             break
+        # Some requests from the TiVo don't have an associated MIME type. In
+        # that case assume an 'h264' codec is going to be compatible.
+        if mime == '' and codec == 'h264':
+            logger.debug('Assuming vCodec %s will be compatible', codec)
+            break
 
         if codec not in ('mpeg2video', 'mpeg1video'):
             message = (False, 'vCodec %s not compatible' % codec)
@@ -613,6 +618,11 @@ def tivo_compatible_audio(vInfo, inFile, tsn, mime=''):
 def tivo_compatible_container(vInfo, inFile, mime=''):
     message = (True, '')
     container = vInfo.get('container', '')
+    # Some requests from the TiVo don't have an associated MIME type. In
+    # that case assume a 'mpegts' container is going to be compatible.
+    if (mime == '' and container == 'mpegts'):
+        logger.debug('Assuming container %s will be compatible', container)
+        return message
     if ((mime == 'video/x-tivo-mpeg-ts' and container != 'mpegts') or
         (mime in ['video/x-tivo-mpeg', 'video/mpeg', ''] and
          (container != 'mpeg' or vInfo['vCodec'] == 'mpeg1video'))):
